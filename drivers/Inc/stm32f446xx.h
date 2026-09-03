@@ -232,10 +232,15 @@ typedef struct
 #define UART5_PCLK_DI()      (RCC->APB1ENR &= ~(1 << 20))
 #define USART6_PCLK_DI()     (RCC->APB2ENR &= ~(1 << 5))
 
+/*
+ *  Some beneficial macros
+ */
 
-
-
-
-
+#define ENABLE            1
+#define DISABLE           0
+#define SET               ENABLE
+#define RESET             DISABLE
+#define GPIO_PIN_SET      ENABLE
+#define GPIO_PIN_RESET    DISABLE
 
 #endif /* INC_STM32F446XX_H_ */
