@@ -233,6 +233,18 @@ typedef struct
 #define USART6_PCLK_DI()     (RCC->APB2ENR &= ~(1 << 5))
 
 /*
+ * Macros to reset GPIOx peripherals
+ */
+#define GPIOA_RESET()         do{ (RCC->AHB1RSTR |= (0x1 << 0)); RCC->AHB1RSTR &= ~(0x1 << 0);}while(0)
+#define GPIOB_RESET()         do{ (RCC->AHB1RSTR |= (0x1 << 1)); RCC->AHB1RSTR &= ~(0x1 << 1);}while(0)
+#define GPIOC_RESET()         do{ (RCC->AHB1RSTR |= (0x1 << 2)); RCC->AHB1RSTR &= ~(0x1 << 2);}while(0)
+#define GPIOD_RESET()         do{ (RCC->AHB1RSTR |= (0x1 << 3)); RCC->AHB1RSTR &= ~(0x1 << 3);}while(0)
+#define GPIOE_RESET()         do{ (RCC->AHB1RSTR |= (0x1 << 4)); RCC->AHB1RSTR &= ~(0x1 << 4);}while(0)
+#define GPIOF_RESET()         do{ (RCC->AHB1RSTR |= (0x1 << 5)); RCC->AHB1RSTR &= ~(0x1 << 5);}while(0)
+#define GPIOG_RESET()         do{ (RCC->AHB1RSTR |= (0x1 << 6)); RCC->AHB1RSTR &= ~(0x1 << 6);}while(0)
+#define GPIOH_RESET()         do{ (RCC->AHB1RSTR |= (0x1 << 7)); RCC->AHB1RSTR &= ~(0x1 << 7);}while(0)
+
+/*
  *  Some beneficial macros
  */
 
