@@ -5,6 +5,8 @@
  *      Author: user
  */
 
+#include "stm32f446xx.h"
+
 #ifndef INC_STM32F446XX_GPIO_DRIVER_H_
 #define INC_STM32F446XX_GPIO_DRIVER_H_
 
