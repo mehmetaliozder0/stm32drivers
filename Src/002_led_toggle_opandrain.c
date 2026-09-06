@@ -31,7 +31,7 @@ int main(void){
 	user_led2.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_5;
 	user_led2.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OUT;
 	user_led2.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_OD;
-	user_led2.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
+	user_led2.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD; // No internal pull-up; external 1k pull-up connected between 3.3V and PA5 (D13)
 	user_led2.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
 	GPIO_Init(&user_led2);
 
