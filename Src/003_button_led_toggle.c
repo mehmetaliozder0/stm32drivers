@@ -17,7 +17,7 @@
 #include "stm32f446xx_gpio_driver.h"
 
 void delay(void){
-	for(volatile uint32_t i =0;i<1000000;i++);
+	for(volatile uint32_t i =0;i<300000;i++);
 }
 
 int main(void){
@@ -45,6 +45,7 @@ int main(void){
 		if(GPIO_ReadFromInputPin(GPIOC,GPIO_PIN_NO_13) == 0){
 			GPIO_ToggleOutputPin(GPIOA,GPIO_PIN_NO_5);
 			delay();
+			while (GPIO_ReadFromInputPin(GPIOC, GPIO_PIN_NO_13) == 0);
 		}
 	}
 }

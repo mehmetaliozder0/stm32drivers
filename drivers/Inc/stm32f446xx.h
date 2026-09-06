@@ -80,7 +80,7 @@
 
 
 /*
- * peripheral register definition structures
+ * peripheral register definition structure for GPIO
  */
 
 typedef struct
@@ -95,6 +95,10 @@ typedef struct
 	volatile uint32_t LCKR;         // GPIO port configuration lock register														address offset: 0x1C
 	volatile uint32_t AFR[2];       // AFR[0]:GPIO alternate function low register & AFR[1]:GPIO alternate function high register   address offset: 0x20
 }GPIO_RegDef_t;
+
+/*
+ * peripheral register definition structure for RCC
+ */
 
 typedef struct
 {
@@ -134,6 +138,32 @@ typedef struct
 	volatile uint32_t DCKCFGR2;       // RCC dedicated clocks configuration register 2                             address offset: 0x94
 }RCC_RegDef_t;
 
+/*
+ * peripheral register definition structure for EXTI
+ */
+
+typedef struct{
+	volatile uint32_t IMR;            // Interrupt mask register                               address offset: 0x00
+	volatile uint32_t EMR;            // Event mask register                                   address offset: 0x04
+	volatile uint32_t RTSR;           // Rising trigger selection register                     address offset: 0x08
+	volatile uint32_t FTSR;           // Falling trigger selection register                    address offset: 0x0C
+	volatile uint32_t SWIER;          // Software interrupt event register                     address offset: 0x10
+	volatile uint32_t PR;             // Pending register                                      address offset: 0x14
+}EXTI_RegDef_t;
+
+/*
+ * peripheral register definition structure for SYSCFG
+ */
+
+typedef struct{
+	volatile uint32_t MEMRMP;        // SYSCFG memory remap register                                      address offset: 0x00
+	volatile uint32_t PMC;		     // SYSCFG peripheral mode configuration register			    	  address offset: 0x04
+	volatile uint32_t EXTICR[4];     // SYSCFG external interrupt configuration registers 			      address offset: 0x08 - 0x14
+	uint32_t RESERVED[2];            // RESERVED      												      address offset: 0x18 - 0x1C
+	volatile uint32_t CMPCR;         // Compensation cell control register								  address offset: 0x20
+	uint32_t RESERVED2[2];			 // RESERVED 														  address offset: 0x24 - 0x28
+	volatile uint32_t CFGR;          // SYSCFG configuration register 									  address offset: 0x2C
+}SYSCFG_RegDef_t;
 
 /*
  * Periphal base adresses typecasted to xxx_RegDef_t
@@ -149,6 +179,9 @@ typedef struct
 #define GPIOH                ((GPIO_RegDef_t*) GPIOH_BASEADDR)
 
 #define RCC                	 ((RCC_RegDef_t*) RCC_BASEADDR)
+
+#define EXTI			     ((EXTI_RegDef_t*) EXTI_BASEADDR)
+#define SYSCFG				 ((SYSCFG_RegDef_t*) SYSCFG_BASEADDR)
 
 /*
  * Clock Enable Macros for GPIOx peripherals
@@ -192,6 +225,11 @@ typedef struct
 #define USART6_PCLK_EN()     (RCC->APB2ENR |= (1 << 5))
 
 /*
+ * Clock Enable Macro for SYSCFG peripheral
+ */
+#define SYSCFG_PCLK_EN()     (RCC->APB2ENR |= (1 << 14))
+
+/*
  * Clock Disable Macros for GPIOx peripherals
  */
 
@@ -231,6 +269,11 @@ typedef struct
 #define UART4_PCLK_DI()      (RCC->APB1ENR &= ~(1 << 19))
 #define UART5_PCLK_DI()      (RCC->APB1ENR &= ~(1 << 20))
 #define USART6_PCLK_DI()     (RCC->APB2ENR &= ~(1 << 5))
+
+/*
+ * Clock Disable Macro for SYSCFG peripheral
+ */
+#define SYSCFG_PCLK_DI()     (RCC->APB2ENR &= ~(1 << 14))
 
 /*
  * Macros to reset GPIOx peripherals
