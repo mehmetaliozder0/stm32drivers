@@ -92,7 +92,33 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle){
 		pGPIOHandle->pGPIOx->MODER |= temp;
 	}
 	else{
+		// 1 - configure the GPIO pin in input mode
+		pGPIOHandle->pGPIOx->MODER &= ~(0x3 << (2 * pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber));
 
+		// 2 - configure the edge trigger
+		if(pGPIOHandle->GPIO_PinConfig.GPIO_PinMode == GPIO_MODE_IT_FT){
+			EXTI->FTSR |= (0x1 << (pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber));
+			EXTI->RTSR &= ~(0x1 << (pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber));
+		}
+		else if(pGPIOHandle->GPIO_PinConfig.GPIO_PinMode == GPIO_MODE_IT_RT){
+			EXTI->FTSR &= ~(0x1 << (pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber));
+			EXTI->RTSR |= (0x1 << (pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber));
+		}
+		else if(pGPIOHandle->GPIO_PinConfig.GPIO_PinMode == GPIO_MODE_IT_RFT){
+			EXTI->FTSR |= (0x1 << (pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber));
+			EXTI->RTSR |= (0x1 << (pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber));
+		}
+		// 3 - configure the GPIO port selection in SYSCFG_EXTICR
+		SYSCFG_PCLK_EN();
+		uint8_t temp1, temp2, portcode;
+		temp1 = (pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber) /4;
+		temp2 = (pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber) %4;
+		portcode = GPIO_BASEADDR_TO_CODE(pGPIOHandle->pGPIOx);
+
+		SYSCFG->EXTICR[temp1] &= ~(0xF<<(4 * temp2));
+		SYSCFG->EXTICR[temp1] |= (portcode << (4 * temp2));
+		// 4 - enable the EXTI interrupt delivery using IMR
+		EXTI->IMR |= (1 << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
 	}
 	//2 - configure the speed
 	temp = (pGPIOHandle->GPIO_PinConfig.GPIO_PinSpeed << (2 * pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber));
@@ -178,11 +204,43 @@ void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber){
 /*
  *  IRQ Configuration and ISR handling
  */
-void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t IRQPriority, uint8_t EnOrDi){
-
+void GPIO_IRQInterruptConfig(uint8_t IRQNumber, uint8_t EnOrDi){
+	if(EnOrDi == ENABLE){
+		if(IRQNumber <= 31){
+			*NVIC_ISER0 |= (0x1 << IRQNumber);
+		}
+		else if(IRQNumber <= 64){
+			*NVIC_ISER1 |= (0x1 << (IRQNumber%32));
+		}
+		else if(IRQNumber <= 96){
+			*NVIC_ISER2 |= (0x1 << (IRQNumber%32));
+		}
+	}
+	else{
+		if(IRQNumber <= 31){
+			*NVIC_ICER0 |= (0x1 << IRQNumber);
+		}
+		else if(IRQNumber <= 64){
+			*NVIC_ICER1 |= (0x1 << (IRQNumber%32));
+		}
+		else if(IRQNumber <= 96){
+			*NVIC_ICER2 |= (0x1 << (IRQNumber%32));
+		}
+	}
 }
-void GPIO_IRQHandling(uint8_t PinNumber){
 
+void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority){
+	uint8_t iprx = IRQNumber / 4;
+	uint8_t iprx_section = IRQNumber % 4;
+	uint8_t shift_amount = (8 * iprx_section + (8-NO_PR_BITS_IMPLEMENTED));
+	*(NVIC_IPR_BASEADDR + iprx) &= ~(0xFF <<  8 * iprx_section);
+	*(NVIC_IPR_BASEADDR + iprx) |= (IRQPriority << shift_amount);
+}
+
+void GPIO_IRQHandling(uint8_t PinNumber){
+	if(EXTI->PR & (1 << PinNumber)){
+		EXTI->PR = (1 << PinNumber);
+	}
 }
 
 
