@@ -35,6 +35,26 @@
 #define NO_PR_BITS_IMPLEMENTED         4
 
 /*
+ * ARM Cortex-M4 Processor Priority Level Definitions
+ */
+#define NVIC_IRQ_PRI0       0
+#define NVIC_IRQ_PRI1       1
+#define NVIC_IRQ_PRI2       2
+#define NVIC_IRQ_PRI3       3
+#define NVIC_IRQ_PRI4       4
+#define NVIC_IRQ_PRI5       5
+#define NVIC_IRQ_PRI6       6
+#define NVIC_IRQ_PRI7       7
+#define NVIC_IRQ_PRI8       8
+#define NVIC_IRQ_PRI9       9
+#define NVIC_IRQ_PRI10      10
+#define NVIC_IRQ_PRI11      11
+#define NVIC_IRQ_PRI12      12
+#define NVIC_IRQ_PRI13      13
+#define NVIC_IRQ_PRI14      14
+#define NVIC_IRQ_PRI15      15
+
+/*
  * base addresses of Flash and SRAM memories
  */
 
@@ -98,8 +118,8 @@
 #define USART1_BASEADDR                (APB1PERIPH_BASEADDR + 0x1000)
 #define USART6_BASEADDR                (APB1PERIPH_BASEADDR + 0x1400)
 
-#define EXTI_BASEADDR                  (APB1PERIPH_BASEADDR + 0x3C00)
-#define SYSCFG_BASEADDR                (APB1PERIPH_BASEADDR + 0x3800)
+#define EXTI_BASEADDR                  (APB2PERIPH_BASEADDR + 0x3C00)
+#define SYSCFG_BASEADDR                (APB2PERIPH_BASEADDR + 0x3800)
 
 
 
