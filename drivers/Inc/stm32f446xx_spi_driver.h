@@ -35,8 +35,8 @@ typedef struct{
 /*
  * SPI device role configuration macros
  */
-#define SPI_ROLE_MASTER				0x0
-#define SPI_ROLE_SLAVE				0x1
+#define SPI_ROLE_SLAVE				0x0
+#define SPI_ROLE_MASTER				0x1
 
 /*
  * SPI clock baud rate prescaler configuration macros
@@ -66,8 +66,8 @@ typedef struct{
 /*
  * SPI NSS configuration macros
  */
-#define SPI_NSS_HARDWARE			0
-#define SPI_NSS_SOFTWARE			1
+#define SPI_NSS_HARDWARE			0x0
+#define SPI_NSS_SOFTWARE			0x1
 
 /*********************************************************************************
  * 							APIs supported by this driver
@@ -79,5 +79,10 @@ typedef struct{
  */
 void SPI_PeriClockControl(SPI_RegDef_t *pSPIx, uint8_t EnorDi);
 
+/*
+ * Init and De-init
+ */
+void SPI_Init(SPI_Handle_t *pSPIHandle);
+void SPI_DeInit(SPI_RegDef_t *pSPIx);
 
 #endif /* INC_STM32F446XX_SPI_DRIVER_H_ */

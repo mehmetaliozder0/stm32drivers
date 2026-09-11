@@ -352,6 +352,13 @@ typedef struct{
 #define GPIOH_RESET()         do{ (RCC->AHB1RSTR |= (0x1 << 7)); RCC->AHB1RSTR &= ~(0x1 << 7);}while(0)
 
 /*
+ * Macros to reset SPIx peripherals
+ */
+#define SPI1_RESET()         do{ (RCC->APB2RSTR |= (0x1 << 12)); RCC->APB2RSTR &= ~(0x1 << 12);}while(0)
+#define SPI2_RESET()         do{ (RCC->APB1RSTR |= (0x1 << 14)); RCC->APB1RSTR &= ~(0x1 << 14);}while(0)
+#define SPI3_RESET()         do{ (RCC->APB1RSTR |= (0x1 << 15)); RCC->APB1RSTR &= ~(0x1 << 15);}while(0)
+
+/*
  * Returns port code for given GPIOx base address
  */
 #define GPIO_BASEADDR_TO_CODE(x)   ((x == GPIOA) ? 0 :\
