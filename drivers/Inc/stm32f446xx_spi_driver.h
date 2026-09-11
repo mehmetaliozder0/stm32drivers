@@ -69,4 +69,15 @@ typedef struct{
 #define SPI_NSS_HARDWARE			0
 #define SPI_NSS_SOFTWARE			1
 
+/*********************************************************************************
+ * 							APIs supported by this driver
+ * 		For more information abput the APIs check the function definitions
+ *********************************************************************************/
+
+/*
+ * Peripheral Clock Setup
+ */
+void SPI_PeriClockControl(SPI_RegDef_t *pSPIx, uint8_t EnorDi);
+
+
 #endif /* INC_STM32F446XX_SPI_DRIVER_H_ */
