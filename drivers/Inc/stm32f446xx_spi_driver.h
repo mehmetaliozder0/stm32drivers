@@ -1,0 +1,72 @@
+/*
+ * stm32f446xx_spi_driver.h
+ *
+ *  Created on: Sep 11, 2026
+ *      Author: user
+ */
+
+#ifndef INC_STM32F446XX_SPI_DRIVER_H_
+#define INC_STM32F446XX_SPI_DRIVER_H_
+
+#include "stm32f446xx.h"
+
+typedef struct{
+	uint8_t SPI_ClockMode;
+	uint8_t SPI_DeviceRole;
+	uint8_t SPI_BaudRatePrescaler;
+	uint8_t SPI_DataBitNo;
+	uint8_t SPI_BusConfig;
+	uint8_t SPI_NSSConfig;
+}SPI_Config_t;
+
+typedef struct{
+	SPI_RegDef_t *SPIx;
+	SPI_Config_t SPI_Config;
+}SPI_Handle_t;
+
+/*
+ * SPI clock mode configuration macros
+ */
+#define SPI_CLK_MODE_0				0x0
+#define SPI_CLK_MODE_1				0x1
+#define SPI_CLK_MODE_2				0x2
+#define SPI_CLK_MODE_3				0x3
+
+/*
+ * SPI device role configuration macros
+ */
+#define SPI_ROLE_MASTER				0x0
+#define SPI_ROLE_SLAVE				0x1
+
+/*
+ * SPI clock baud rate prescaler configuration macros
+ */
+#define SPI_BR_PRE_2				0x0
+#define SPI_BR_PRE_4				0x1
+#define SPI_BR_PRE_8				0x2
+#define SPI_BR_PRE_16				0x3
+#define SPI_BR_PRE_32				0x4
+#define SPI_BR_PRE_64				0x5
+#define SPI_BR_PRE_128				0x6
+#define SPI_BR_PRE_256				0x7
+
+/*
+ * SPI number of the bits of the data configuration macros
+ */
+#define SPI_BIT_NO_8				0x0
+#define SPI_BIT_NO_16				0x1
+
+/*
+ * SPI bus configuration macros
+ */
+#define SPI_FULL_DUPLEX				0
+#define SPI_HALF_DUPLEX				1
+#define SPI_SIMPLEX					2
+
+/*
+ * SPI NSS configuration macros
+ */
+#define SPI_NSS_HARDWARE			0
+#define SPI_NSS_SOFTWARE			1
+
+#endif /* INC_STM32F446XX_SPI_DRIVER_H_ */
