@@ -69,6 +69,13 @@ typedef struct{
 #define SPI_NSS_HARDWARE			0x0
 #define SPI_NSS_SOFTWARE			0x1
 
+/*
+ * SPI status flag name macros
+ */
+#define SPI_FLAG_RXNE 				0x0
+#define SPI_FLAG_TXE 				0x1
+
+
 /*********************************************************************************
  * 							APIs supported by this driver
  * 		For more information abput the APIs check the function definitions
@@ -84,5 +91,18 @@ void SPI_PeriClockControl(SPI_RegDef_t *pSPIx, uint8_t EnorDi);
  */
 void SPI_Init(SPI_Handle_t *pSPIHandle);
 void SPI_DeInit(SPI_RegDef_t *pSPIx);
+
+/*
+ * Send Data
+ */
+void SPI_SendData(SPI_Handle_t *pSPIHandle, uint8_t *pData, uint32_t len);
+
+
+/*
+ * Other Control APIs
+ */
+uint8_t SPI_GetFlagStatus(SPI_RegDef_t *pSPIx, uint8_t FlagName);
+
+
 
 #endif /* INC_STM32F446XX_SPI_DRIVER_H_ */
