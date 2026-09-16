@@ -117,6 +117,18 @@ void SPI_SendData(SPI_Handle_t *pSPIHandle, uint8_t *pData, uint32_t len){
 }
 
 /*
+ * Peripheral Control
+ */
+void SPI_PeripheralControl(SPI_RegDef_t * SPIx, uint8_t EnorDi){
+	if(EnorDi == ENABLE){
+		SPIx->CR[0] |= (0x1 << 6);
+	}
+	else if(EnorDi == DISABLE){
+		SPIx->CR[0] &= ~(0x1 << 6);
+	}
+}
+
+/*
  * Other Control APIs
  */
 uint8_t SPI_GetFlagStatus(SPI_RegDef_t *pSPIx, uint8_t FlagName){

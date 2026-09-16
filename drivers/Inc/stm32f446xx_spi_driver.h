@@ -97,6 +97,11 @@ void SPI_DeInit(SPI_RegDef_t *pSPIx);
  */
 void SPI_SendData(SPI_Handle_t *pSPIHandle, uint8_t *pData, uint32_t len);
 
+/*
+ * Peripheral Control
+ */
+void SPI_PeripheralControl(SPI_RegDef_t * SPIx, uint8_t EnorDi);
+
 
 /*
  * Other Control APIs
