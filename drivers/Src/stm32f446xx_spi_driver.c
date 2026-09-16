@@ -117,6 +117,29 @@ void SPI_SendData(SPI_Handle_t *pSPIHandle, uint8_t *pData, uint32_t len){
 }
 
 /*
+ * Receive Data
+ */
+void SPI_ReceiveData(SPI_Handle_t *pSPIHandle, uint8_t *pData, uint32_t len){
+	if(pSPIHandle->SPI_Config.SPI_DataBitNo == SPI_BIT_NO_8){
+		for(uint32_t i = 0; i<len; i++){
+			while(SPI_GetFlagStatus(pSPIHandle->SPIx, SPI_FLAG_TXE) == 0);
+			pSPIHandle->SPIx->DR = 0xFF;
+			while(SPI_GetFlagStatus(pSPIHandle->SPIx, SPI_FLAG_RXNE) == 0);
+			*(pData+i) = pSPIHandle->SPIx->DR;
+		}
+	}
+	else if(pSPIHandle->SPI_Config.SPI_DataBitNo == SPI_BIT_NO_16){
+		uint16_t* pData1 = (uint16_t*) pData;
+		for(uint32_t i = 0; i<(len/2); i++){
+			while(SPI_GetFlagStatus(pSPIHandle->SPIx, SPI_FLAG_TXE) == 0);
+			pSPIHandle->SPIx->DR = 0xFFFF;
+			while(SPI_GetFlagStatus(pSPIHandle->SPIx, SPI_FLAG_RXNE) == 0);
+			*(pData1+i) = pSPIHandle->SPIx->DR;
+		}
+	}
+}
+
+/*
  * Peripheral Control
  */
 void SPI_PeripheralControl(SPI_RegDef_t * SPIx, uint8_t EnorDi){
