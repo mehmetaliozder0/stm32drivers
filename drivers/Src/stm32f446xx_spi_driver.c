@@ -102,14 +102,14 @@ void SPI_DeInit(SPI_RegDef_t *pSPIx){
  */
 void SPI_SendData(SPI_Handle_t *pSPIHandle, uint8_t *pData, uint32_t len){
 	if(pSPIHandle->SPI_Config.SPI_DataBitNo == SPI_BIT_NO_8){
-		for(uint8_t i = 0; i<len; i++){
+		for(uint32_t i = 0; i<len; i++){
 			while(SPI_GetFlagStatus(pSPIHandle->SPIx, SPI_FLAG_TXE) == 0);
 			pSPIHandle->SPIx->DR = *(pData+i);
 		}
 	}
 	else if(pSPIHandle->SPI_Config.SPI_DataBitNo == SPI_BIT_NO_16){
 		uint16_t* pData1 = (uint16_t*) pData;
-		for(uint8_t i = 0; i<(len/2); i++){
+		for(uint32_t i = 0; i<(len/2); i++){
 			while(SPI_GetFlagStatus(pSPIHandle->SPIx, SPI_FLAG_TXE) == 0);
 			pSPIHandle->SPIx->DR = *(pData1+i);
 		}

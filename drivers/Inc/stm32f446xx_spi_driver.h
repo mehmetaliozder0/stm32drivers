@@ -74,7 +74,7 @@ typedef struct{
  */
 #define SPI_FLAG_RXNE 				0x0
 #define SPI_FLAG_TXE 				0x1
-
+#define SPI_FLAG_BSY				0x7
 
 /*********************************************************************************
  * 							APIs supported by this driver
